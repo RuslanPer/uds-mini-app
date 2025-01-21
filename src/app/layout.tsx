@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { Root } from "@/components/Root/Root";
 import { I18nProvider } from "@/core/i18n/provider";
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: PropsWithChildren) {
   const locale = await getLocale();
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
   return (
     <html lang={locale}>
@@ -24,6 +26,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
           <Root>{children}</Root>
         </I18nProvider>
       </body>
+      {gaId && <GoogleAnalytics gaId={gaId} />}
     </html>
   );
 }
